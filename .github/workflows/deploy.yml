@@ -51,7 +51,17 @@ jobs:
           chmod 600 private_key.pem
           scp -i private_key.pem code.tar.gz $USER@$HOST:/home/$USER
 
-      - name: Deploy to EC2
+      - name: Unarchive code and Deploy to EC2 Django dir
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -i private_key.pem $USER@$HOST "cd /home/$USER && tar -xzvf code.tar.gz && sudo cp manage.py /home/ubuntu/djangodemo_UI"
+
+      - name: Refresh Django Config
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           HOST: ${{ secrets.EC2_HOST }}
