@@ -63,8 +63,7 @@ jobs:
           ssh -i private_key.pem $USER@$HOST "cd /home/$USER && sudo cp data/django/settings.py /home/ubuntu/djangodemo_UI/djangodemo_UI"
           ssh -i private_key.pem $USER@$HOST "cd /home/$USER && sudo cp data/django/views.py /home/ubuntu/djangodemo_UI/djangodemo_UI"
           ssh -i private_key.pem $USER@$HOST "cd /home/$USER && sudo cp data/django/urls.py /home/ubuntu/djangodemo_UI/djangodemo_UI"
-          ssh -i private_key.pem $USER@$HOST "sudo -u ubuntu -i -- bash -c 'cd /home/ubuntu/djangodemo_UI/djangodemo_UI && mkdir templates'"
-          ssh -i private_key.pem $USER@$HOST "cd /home/$USER && sudo cp data/django/hello_world.html /home/ubuntu/djangodemo_UI/djangodemo_UI/djangodemo_UI"
+          ssh -i private_key.pem $USER@$HOST "cd /home/$USER && sudo cp data/django/hello_world.html /home/ubuntu/djangodemo_UI/djangodemo_UI/templates"
 
       - name: Refresh Django Config
         env:
