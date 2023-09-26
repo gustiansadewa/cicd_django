@@ -46,4 +46,4 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           scp -i private_key.pem -r * $USER@$HOST:/home/$USER
-          ssh -i private_key.pem $USER@$HOST "sudo -u ubuntu -i -- bash -c 'cd /home/ubuntu/djangodemo_UI && python manage.py migrate && /home/ubuntu/.local/bin/gunicorn djangodemo_UI.wsgi:application --bind 0.0.0.0:8000'"
+          ssh -i private_key.pem $USER@$HOST "sudo -u ubuntu -i -- bash -c 'cd /home/ubuntu/djangodemo_UI && python manage.py migrate'"
