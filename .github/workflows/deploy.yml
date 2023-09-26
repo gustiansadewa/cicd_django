@@ -21,8 +21,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r .github/workflows/requirements.txt
 
-      - name: Run Tests
-        run: python manage.py test
+      - name: Run Tests on EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -i private_key.pem $USER@$HOST "cd /home/ubuntu/djangodemo_UI && source venv/bin/activate && python manage.py test"
 
       - name: Deploy to EC2
         env:
@@ -34,4 +41,3 @@ jobs:
           chmod 600 private_key.pem
           scp -i private_key.pem -r . $USER@$HOST:/home/ubuntu/djangodemo_UI
           ssh -i private_key.pem $USER@$HOST "cd /home/ubuntu/djangodemo_UI && source venv/bin/activate && python manage.py migrate && /home/ubuntu/.local/bin/gunicorn djangodemo_UI.wsgi:application --bind 0.0.0.0:8000"
-
