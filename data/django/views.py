@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
-def hello_world(request):
+def djangodemo_UI(request):
     return render(request, 'hello_world.html', {})
