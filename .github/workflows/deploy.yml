@@ -35,13 +35,12 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu whoami"
-          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu pwd"
-          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu ls -l /home/ubuntu/djangodemo_UI"
-          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu ls -l /home/ubuntu/djangodemo_UI/venv/bin"
-          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu /home/ubuntu/djangodemo_UI/venv/bin/python --version"
-          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu /home/ubuntu/djangodemo_UI/venv/bin/python -m django --version"
-          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu /home/ubuntu/djangodemo_UI/venv/bin/python /home/ubuntu/djangodemo_UI/manage.py test"
+          ssh -i private_key.pem -t $USER@$HOST "
+            sudo su - ubuntu;
+            cd /home/ubuntu/djangodemo_UI;
+            source venv/bin/activate;
+            python3 manage.py test;
+          "
 
       - name: Deploy to EC2
         env:
