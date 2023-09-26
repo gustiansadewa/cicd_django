@@ -21,6 +21,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r .github/workflows/requirements.txt
 
+      - name: Add EC2 to SSH known hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
       - name: Run Tests on EC2
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
