@@ -59,7 +59,7 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem $USER@$HOST "cd /home/$USER && tar -xzvf code.tar.gz && sudo cp manage.py /home/ubuntu/djangodemo_UI"
+          ssh -i private_key.pem $USER@$HOST "cd /home/$USER && tar -xzvf code.tar.gz && sudo cp data/django/manage.py /home/ubuntu/djangodemo_UI"
 
       - name: Refresh Django Config
         env:
