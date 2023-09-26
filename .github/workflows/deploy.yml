@@ -23,7 +23,9 @@ jobs:
 
       - name: Add EC2 to SSH known hosts
         run: |
+          mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          cat ~/.ssh/known_hosts
 
       - name: Run Tests on EC2
         env:
