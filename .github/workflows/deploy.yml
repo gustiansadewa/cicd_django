@@ -35,7 +35,13 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem $USER@$HOST "sudo -u ubuntu -i -- bash -c 'cd /home/ubuntu/djangodemo_UI && source venv/bin/activate && python manage.py test'"
+          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu whoami"
+          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu pwd"
+          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu ls -l /home/ubuntu/djangodemo_UI"
+          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu ls -l /home/ubuntu/djangodemo_UI/venv/bin"
+          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu /home/ubuntu/djangodemo_UI/venv/bin/python --version"
+          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu /home/ubuntu/djangodemo_UI/venv/bin/python -m django --version"
+          ssh -i private_key.pem $USER@$HOST "sudo -i -u ubuntu /home/ubuntu/djangodemo_UI/venv/bin/python /home/ubuntu/djangodemo_UI/manage.py test"
 
       - name: Deploy to EC2
         env:
@@ -46,4 +52,4 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           scp -i private_key.pem -r . $USER@$HOST:/home/ubuntu/djangodemo_UI
-          ssh -i private_key.pem $USER@$HOST "sudo -u ubuntu -i -- bash -c 'cd /home/ubuntu/djangodemo_UI && source venv/bin/activate && python manage.py migrate && /home/ubuntu/.local/bin/gunicorn djangodemo_UI.wsgi:application --bind 0.0.0.0:8000"
+          ssh -i private_key.pem $USER@$HOST "cd /home/ubuntu/djangodemo_UI && source venv/bin/activate && python manage.py migrate && /home/ubuntu/.local/bin/gunicorn djangodemo_UI.wsgi:application --bind 0.0.0.0:8000"
