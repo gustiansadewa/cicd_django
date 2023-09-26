@@ -39,7 +39,7 @@ jobs:
 
       - name: Archive code
         run: |
-          tar -czvf code.tar.gz .
+          tar -czvf code.tar.gz ./data/django
 
       - name: Copy code to EC2
         env:
