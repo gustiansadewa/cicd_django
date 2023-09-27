@@ -15,6 +15,7 @@ COPY ./data/djangodemo_UI .
 
 # Expose the application on port 8000
 EXPOSE 8000
+EXPOSE 5432
 
 # Define the start command
 CMD ["gunicorn", "djangodemo_UI.wsgi:application", "--bind", "0.0.0.0:8000"]
