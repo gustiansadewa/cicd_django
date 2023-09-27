@@ -36,6 +36,10 @@ jobs:
           scp -i private_key.pem my-django-app.tar $USER@$HOST:/tmp
 
       - name: Load and run Docker image on EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
