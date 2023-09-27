@@ -43,4 +43,4 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem $USER@$HOST "sudo docker load < /tmp/my-django-app.tar && sudo docker run -d -p 8000:8000 my-django-app:latest"
+          ssh -i private_key.pem $USER@$HOST "sudo docker ps -q --filter 'expose=8000' | xargs -r sudo docker stop && sudo docker load < /tmp/my-django-app.tar && sudo docker run -d -p 8000:8000 my-django-app:latest"
