@@ -1,0 +1,36 @@
+name: Deploy Django to EC2 with Docker
+
+on:
+  push:
+    branches:
+      - main  # Trigger this workflow on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+       - name: Build Docker image
+        run: docker build -t my-django-app .
+
+      - name: Save Docker image
+        run: docker save my-django-app:latest > my-django-app.tar
+
+      - name: Copy Docker image to EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          scp -i private_key.pem my-django-app.tar $USER@$HOST:/tmp
+
+      - name: Load and run Docker image on EC2
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -i private_key.pem $USER@$HOST "sudo docker load < /tmp/my-django-app.tar && sudo docker run -d -p 8000:8000 my-django-app:latest"

@@ -1,0 +1,20 @@
+# Use the official Python image as the base image
+FROM python:3.11-slim-bookworm
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy the requirements file into the container
+COPY .github/workflows/requirements.txt ./
+
+# Install the application dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code into the container
+COPY ./data/django .
+
+# Expose the application on port 8000
+EXPOSE 8000
+
+# Define the start command
+CMD ["gunicorn", "djangodemo_UI.wsgi:application", "--bind", "0.0.0.0:8000"]
