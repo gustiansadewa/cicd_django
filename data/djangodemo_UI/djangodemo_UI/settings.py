@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'djangodemodb',
         'USER': 'gustian',
         'PASSWORD': 'sadewa',
-        'HOST': 'localhost',
+        'HOST': '172.31.34.61',
         'PORT': '',
     }
 }
