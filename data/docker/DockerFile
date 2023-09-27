@@ -11,7 +11,7 @@ COPY .github/workflows/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
-COPY ./data/django .
+COPY ./data/djangodemo_UI .
 
 # Expose the application on port 8000
 EXPOSE 8000
